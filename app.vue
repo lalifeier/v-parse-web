@@ -45,7 +45,7 @@ const getOption = async (url) => {
 
   console.log(data.value)
 
-  const { data: {live: isLive, streams, thumbnail} } = data.value || {}
+  const { live: isLive, streams, thumbnail } = data.value || {}
 
   const getQuality = (streams) => {
     const qualityList = []

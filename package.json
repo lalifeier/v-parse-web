@@ -9,7 +9,11 @@
     "commit": "czg",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "pm2": "pnpm build && pnpm pm2:start",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:start:test": "pm2 start ecosystem.config.js --env test",
+    "pm2:start:prod": "pm2 start ecosystem.config.js --env production"
   },
   "dependencies": {
     "artplayer": "^4.6.0",
