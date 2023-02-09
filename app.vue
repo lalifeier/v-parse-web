@@ -26,8 +26,6 @@ let option = {
   // useSSR: true,
 }
 
-console.log(url)
-
 const getOption = async (url) => {
   if (!url)
     return {}
@@ -43,9 +41,13 @@ const getOption = async (url) => {
     // pick: []
   })
 
-  console.log(data.value)
+  // console.log(data.value)
 
   const { live: isLive, streams, thumbnail } = data.value || {}
+
+  if (!streams) {
+    return {}
+  }
 
   const getQuality = (streams) => {
     const qualityList = []
@@ -70,8 +72,6 @@ const getOption = async (url) => {
   }
 }
 
-
-console.log(option);
 option = Object.assign(option, await getOption(url))
 
 const style = {
@@ -80,7 +80,7 @@ const style = {
 }
 
 const getInstance = (art) => {
-  console.log(art)
+  // console.log(art)
 }
 </script>
 

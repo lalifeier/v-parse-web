@@ -4,6 +4,8 @@ module.exports = {
     // exec_mode: 'cluster',
     // instances: 'max',
     instances: 1,
+    watch: true,
+    // watch: ['.output'],
     script: './.output/server/index.mjs',
     env: {
       PORT: 3001,
