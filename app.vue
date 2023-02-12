@@ -64,6 +64,17 @@ const getOption = async (url) => {
   }
   const quality = getQuality(streams)
 
+  if (quality.length == 0) {
+    return {}
+  }
+  if (quality.length == 1) {
+    return {
+      isLive,
+      url: quality[0].url,
+      type: quality[0].ext,
+    }
+  }
+
   return {
     isLive,
     url: quality[0].url,
