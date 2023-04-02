@@ -1,9 +1,9 @@
-// import flv from 'flv.js'
+import flv from 'flv.js'
 
 export default defineNuxtPlugin(() => {
   return {
     provide: {
-      // flv,
+      flv,
     },
   }
 })

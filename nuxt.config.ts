@@ -8,20 +8,25 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
+    // '@vite-pwa/nuxt',
+    '@nuxt/devtools',
   ],
   experimental: {
-    reactivityTransform: true,
+    // when using generate, payload js assets included in sw precache manifest
+    // but missing on offline, disabling extraction it until fixed
+    payloadExtraction: false,
     inlineSSRStyles: false,
   },
   app: {
     head: {
       // title: '',
-      // meta: [
-      //   { charset: 'utf-8' },
-      //   { name: 'viewport', content: 'width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no' },
-      //   { name: 'description', content: '' },
-      //   { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      // ],
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no' },
+        { name: 'description', content: '' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'referrer', content: 'never' },
+      ],
       link: [
         {
           rel: 'preconnect',
@@ -56,6 +61,21 @@ export default defineNuxtConfig({
   plugins: [
     // { src: '@/plugins/flv.client.ts', ssr: false },
   ],
+  // nitro: {
+    // esbuild: {
+    //   options: {
+    //     target: 'esnext',
+    //   },
+    // },
+    // prerender: {
+    //   crawlLinks: false,
+    //   routes: ['/'],
+    //   ignore: ['/hi'],
+    // },
+  // },
+  optimizeDeps: {
+    include: ['flv.js'],
+  },
   vite: {
     ssr: {
       // noExternal: ["flv.js"],

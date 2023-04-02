@@ -4,10 +4,12 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:pwa": "VITE_PLUGIN_PWA=true nuxi dev",
     "start": "node --max-old-space-size=2048 .output/server/index.mjs",
     "lint": "eslint .",
     "commit": "czg",
     "generate": "nuxt generate",
+    "start:generate": "npx serve .output/public",
     "analyze": "nuxt analyze",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -19,20 +21,21 @@
   "dependencies": {
     "artplayer": "^4.6.2",
     "flv.js": "^1.6.2",
-    "hls.js": "^1.3.3"
+    "hls.js": "^1.3.5"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.35.2",
-    "@iconify-json/carbon": "^1.1.14",
-    "@iconify-json/twemoji": "^1.1.10",
+    "@antfu/eslint-config": "^0.38.2",
+    "@iconify-json/carbon": "^1.1.16",
+    "@iconify-json/twemoji": "^1.1.11",
+    "@nuxt/devtools": "^0.2.5",
     "@nuxtjs/color-mode": "^3.2.0",
-    "@pinia/nuxt": "^0.4.6",
-    "@unocss/nuxt": "^0.49.4",
-    "@vueuse/nuxt": "^9.12.0",
-    "czg": "^1.4.1",
-    "eslint": "^8.33.0",
-    "nuxt": "3.2.0",
-    "rollup-plugin-external-globals": "^0.7.1",
-    "typescript": "^4.9.5"
+    "@pinia/nuxt": "^0.4.7",
+    "@unocss/nuxt": "^0.50.6",
+    "@vueuse/nuxt": "^9.13.0",
+    "czg": "^1.6.1",
+    "eslint": "^8.37.0",
+    "nuxt": "3.3.2",
+    "rollup-plugin-external-globals": "^0.7.3",
+    "typescript": "^5.0.3"
   }
 }

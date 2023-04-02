@@ -1,8 +1,9 @@
 import Artplayer from 'artplayer';
 import { Option } from 'artplayer/types/option';
-import flvjs from 'flv.js';
+// import flvjs from 'flv.js';
 import Hls from "hls.js";
 import { PropType } from 'vue';
+
 const props = {
   option: {
     type: Object as PropType<Option>,
@@ -18,10 +19,53 @@ export default defineComponent({
     const elRef = ref<null | HTMLDivElement>(null)
     const instance = ref<null | Artplayer>(null)
 
+    const { $flv } = useNuxtApp()
+
     const playM3u8 = async (video: HTMLVideoElement, url: string, art: Artplayer) => {
       // const { default: Hls } = await import('hls.js');
+
+      function process(playlist) {
+        if (!playlist.includes('#EXT-X-DISCONTINUITY')) {
+          return playlist
+        }
+
+        const playList = playlist.split('#EXT-X-DISCONTINUITY')
+
+        let data = []
+        for (const item of playList) {
+          const tsList = item.split('#EXTINF')
+          if (tsList.length == 6) {
+            continue
+          }
+          data.push(item)
+        }
+
+        return data.join('');
+      }
+
+      class pLoader extends Hls.DefaultConfig.loader {
+        constructor(config) {
+          super(config);
+          var load = this.load.bind(this);
+          this.load = function (context, config, callbacks) {
+            if (context.type == 'level') {
+              var onSuccess = callbacks.onSuccess;
+              callbacks.onSuccess = function (response, stats, context) {
+                response.data = process(response.data);
+                onSuccess(response, stats, context, null);
+              };
+            }
+            load(context, config, callbacks);
+          };
+        }
+      }
+
       if (Hls.isSupported()) {
-        const hls = new Hls();
+        const hls = new Hls(
+          {
+            pLoader: pLoader as typeof Hls.DefaultConfig.pLoader,
+          }
+        );
         hls.loadSource(url);
         hls.attachMedia(video);
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
@@ -32,9 +76,9 @@ export default defineComponent({
     }
 
     const playFlv = async (video: HTMLVideoElement, url: string, art: Artplayer) => {
-      // const { default: Flv } = await import('flv.js');
-      if (flvjs.isSupported()) {
-        const flv = flvjs.createPlayer({ type: 'flv', url });
+      // const { default: flvjs } = await import('flv.js');
+      if ($flv.isSupported()) {
+        const flv = $flv.createPlayer({ type: 'flv', url });
         flv.attachMediaElement(video);
         flv.load();
       } else {
@@ -54,7 +98,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      instance.value = new Artplayer(unref(options)!);
+      instance.value = new Artplayer(unref(options));
 
       nextTick(() => {
         emit('getInstance', unref(instance))
